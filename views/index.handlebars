@@ -15,7 +15,7 @@
 							<p> Put up for adoption at:<br>{{createdAt}}</p>
 							
 							<img src="assets/img/meow.png" width =80px alt="catbaby">
-							<form id ="adpotCat"  method="POST">
+							<form id ="adoptCat"  method="POST">
 							<input type="text" name="ownername" placeholder="Enter your name to adopt">
 
 							<button type="submit" class = "btn btn-primary adpBtn" data-id={{id}}>Adpot Meow</button>
@@ -43,7 +43,7 @@
 					<div class="alert alert-info ">
 						<li>
 							<p> {{id}} : {{cat_name}}</p>
-							<p> Adopted at:<br>{{updatedAt}}</p>
+							<p> Adopted by <span style ="color:rgb(73, 122, 173)">{{Owner.name}}</span> at:<br>{{updatedAt}}</p>
 
 							<img src="assets/img/meow2.png" width =80px alt="catbaby">
 							<span>Found a happy home</span>
@@ -76,19 +76,27 @@ $(function() {
 	//click on the adoptcat button
 	$(".adpBtn").on("click",function(event){
 		event.preventDefault();	
-		var catid = $(this).data("id");
+		var catid = $(this).data("id");  //grab the cat id from data attr assigned when render cat
 		var newCatObj = {
 			rescued:1,
 		}
 		console.log(newCatObj);
-
-		$.ajax("/adpotcat/"+catid, {
-			type: "PUT",
-			data: newCatObj
-		})
-		.then(function(){
-			console.log("changed adopted to", true);
-			location.reload();
+		//save owner info before update cat
+		name = $("[name=ownername]").val().trim();
+		$.post("/owner", { name: name }).then(function (backdata) {
+			console.log(backdata);  //backdata is the previous post owner obj, we need the id
+			var newCatObj = {
+			rescued:1,
+			OwnerId:backdata.id  //assign cat's foreignkey with the owner id
+			}	//then update the cat
+			$.ajax("/adpotcat/" + catid, {
+				type: "PUT",
+				data: newCatObj
+			})
+			.then(function () {
+				console.log("changed adopted to", true);
+				location.reload();
+			});
 		});
 
 	});

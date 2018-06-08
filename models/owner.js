@@ -1,7 +1,11 @@
 module.exports = function(sequelize, DataTypes) {
   var Owner = sequelize.define("Owner", {
     // Giving the Owner model a name of type STRING
-    name: DataTypes.STRING
+    name: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      validate:{len:[1,30]}
+    }
   });
 
   Owner.associate = function(models) {
