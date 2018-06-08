@@ -12,6 +12,8 @@
 					<div class ="alert alert-info ">
 						<li>
 							<p> {{id}} : {{cat_name}}</p>
+							<p> Put up for adoption at:<br>{{createdAt}}</p>
+							
 							<img src="assets/img/meow.png" width =80px alt="catbaby">
 							<form id ="adpotCat"  method="POST">
 							<button type="submit" class = "btn btn-primary adpBtn" data-id={{id}}>Adpot Meow</button>
@@ -39,6 +41,8 @@
 					<div class="alert alert-info ">
 						<li>
 							<p> {{id}} : {{cat_name}}</p>
+							<p> Adopted at:<br>{{updatedAt}}</p>
+
 							<img src="assets/img/meow2.png" width =80px alt="catbaby">
 							<span>Found a happy home</span>
 						</li>
@@ -51,6 +55,7 @@
 </div>
 <script type = "text/javascript">
 $(function() {
+
 	//click on the addCat button event
 	$("#addCat").on("submit",function(event){
 		event.preventDefault();

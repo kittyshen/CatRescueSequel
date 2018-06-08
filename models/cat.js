@@ -1,21 +1,15 @@
-var orm = require("../config/orm.js");
-
-var cat = {
-    all: function(callback){
-        orm.selectAll("cats",function(response){
-            callback(response);
-        });
+module.exports = function(sequelize, DataTypes) {
+  var Cat = sequelize.define("Cat", {
+    cat_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1-40]
+      }
     },
-    add:function(col,val,callback){
-        orm.insertOne("cats",col,val,function(response){
-            callback(response);
-        });
-    },
-    update:function(objColVal,condition,callback){
-        orm.updateOne("cats",objColVal,condition,function(response){
-            callback(response);
-        });
-    }
+    rescued: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false    }
+  });
+  return Cat;
 }
-
-module.exports = cat;
