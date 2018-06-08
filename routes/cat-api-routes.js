@@ -12,13 +12,7 @@ var db = require("../models");
 // =============================================================
 module.exports = function(app) {
   // GET route for getting all of the posts
-  app.get("/", function(req, res) {
-    // res.render("../views/index.handlebars",null);
 
-    // .then(function(data) {
-      // res.render("../views/index.handlebars",data);
-    // });
-  });
   app.get("/", function(req, res) {
     console.log(db.Cat);
     db.Cat.findAll({})

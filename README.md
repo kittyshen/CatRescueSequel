@@ -8,23 +8,10 @@ This homework assignment is **optional**.
 
 In this assignment, you're going to Sequelize the `cat` app you made this week. We've split this exercise into three different tiers, all with different tasks and expectations. Finish whichever tier will provide you with the most reasonable challenge.
 
-### Before you Begin
-
-1. Create a new folder called `sequelizedcat`
-2. Copy the contents of your completed assignment from last week.
-   * Remove the older git connection with `rm -R .git`.
-   * Then connect this folder with a new github repo.
-3. Run `sequelize init` to create the necessary files.
-
-4. **Note**: If for any reason you don't have a finished assignment for last week, no problem. Message the instructor, who will provide you will a skeleton file to work of for this week.
 
 ### Submission on BCS
 
 * Please submit both the deployed Github.io link to your homework AND the link to the Github Repository!
-
-## Instructions
-
-Put in your best efforts to complete one of the three available challenge tiers. Remember to deploy your assignment to Heroku once complete.
 
 #### Tier 1: Sequelized! (Basic to Moderate)
 
@@ -43,7 +30,7 @@ Put in your best efforts to complete one of the three available challenge tiers.
     * Remove your old ORM file, as well as any references to it in `cats_controller.js`. Replace those references with Sequelize's ORM methods.
 
 * When you finish, your site should function just like your last one:
-    ![1-Sequelized](Images/1-Sequelized.jpg)
+    ![1-Sequelized](./public/assets/img/SS-catrescue.png)
 
 #### Tier 2: Customer Associations (Challenge)
 
@@ -62,7 +49,151 @@ Put in your best efforts to complete one of the three available challenge tiers.
 * Add validations to your models where:
 
   * A cat's name cannot be null
-  * A cat's devoured status is false by default
+  * A cat's rescued status is false by default
   * A Customer's name cannot be null
 
 * Order the cats you send back to the user in alphabetical order using the Sequelize "order" option.
+
+
+
+### Key learning points
+
+* rename your heroko app deployment using this inside the project folder
+```
+heroku apps:rename kittycat-rescue-sequel
+```
+* heroku server error debug
+```
+heroku logs -t
+```
+* initial sequelize
+```
+(sudo)? npm install -g sequelize-cli sequelize
+------
+sequelize init:config
+sequelize init:models
+```
+
+```javascript
+// sequelize model creating quick reference
+module.exports = function(sequelize, DataTypes) {
+  var Cat = sequelize.define("Cat", {
+    cat_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1-40]
+      }
+    },
+    rescued: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false    }
+  });
+  return Cat;
+}
+
+```
+
+```javascript
+//client side ajax calls quick reference
+$("#addCat").on("submit",function(event){
+		event.preventDefault();
+		var catName = $("[name=catname]").val().trim(); //grab value from form
+		var newCatObj = {
+			name:catName,
+		}
+		console.log(newCatObj);
+		$.post("/addcat",newCatObj)
+		.then(function(){
+			location.reload();
+		});
+});
+
+```
+
+```javascript
+//sequelize post method quick reference 
+router.post("/addcat",function(req,res){
+    console.log(req.body);
+    db.Cat.create({cat_name:req.body.name}).then(function(data){
+        res.json(data);
+    });
+})
+```
+
+```javascript
+//sequelize get method quick reference 
+ router.get("/", function(req, res) {
+    console.log(db.Cat);
+    db.Cat.findAll({})
+    .then(function(data) {
+      res.render("../views/index.handlebars",data);
+    });
+  });
+```
+
+```javascript
+//sequelize put method quick reference 
+router.put("/adpotcat/:id",function(req,res){
+     console.log("inside adopt");
+    db.Cat.update(
+        {rescued:1},
+        {where:{id:req.params.id}})
+    .then(function(data){
+        // console.log(data);
+        res.json(data);
+    });
+})
+```
+
+```javascript
+//heroku database set up quick reference
+var connection;
+
+if(process.env.JAWSDB_URL){
+  connection = mysql.createConnection(process.env.JAWSDB_URL);
+}
+else{
+  //local database setting goes here
+  connection = mysql.createConnection({
+    host: "localhost",
+  ...
+  })
+}
+
+```  
+
+``` html
+<!-- handlebar basic usuage quick reference-->
+<div class = "col-md-4 col-sm-4">
+  <ul>
+	{{#each cats}}
+	 {{#unless rescued}}
+	   <div class ="alert alert-info ">
+		<li>
+            <p> {{id}} : {{cat_name}}</p>
+            <p> Posted at:<br>{{updatedAt}}</p>
+            <img src="assets/img/meow.png" width =80px alt="catbaby">
+			<form id ="adpotCat"  method="POST">
+			<button type="submit" class = "btn btn-primary adpBtn" data-id={{id}}>Adpot Meow</button>
+			</form>
+		</li>
+	   </div>
+	 {{/unless}}
+	{{/each}}
+  </ul>
+</div>
+```
+
+## Link to the site
+[https://kittycat-rescue-sequel.herokuapp.com/](https://kittycat-rescue-sequel.herokuapp.com/)
+
+## Author 
+[Kitty Shen ](https://github.com/kittyshen)
+
+https://github.com/kittyshen
+
+### [Link to Portfolio Site](https://kittyshen.github.io/Portfolio/)
+
+## License
+Standard MIT License
