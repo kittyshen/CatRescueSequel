@@ -38,7 +38,6 @@ router.post("/owner",function(req,res){
     // console.log(req.body);
     db.Owner.create(
         req.body,
-        // {include: [db.Cat]}
     ).then(function(data){
         res.json(data);
     });

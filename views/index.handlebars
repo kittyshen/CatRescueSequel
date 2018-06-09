@@ -84,7 +84,7 @@ $(function() {
 		//save owner info before update cat
 		name = $("[name=ownername]").val().trim();
 		$.post("/owner", { name: name }).then(function (backdata) {
-			console.log(backdata);  //backdata is the previous post owner obj, we need the id
+			console.log("what iss backdata:  ",backdata);  //backdata is the previous post owner obj, we need the id
 			var newCatObj = {
 			rescued:1,
 			OwnerId:backdata.id  //assign cat's foreignkey with the owner id

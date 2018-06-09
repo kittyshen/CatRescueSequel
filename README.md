@@ -21,7 +21,7 @@ In this assignment, you're going to Sequelize the `cat` app you made this week. 
 
   * Replacing your MySQL `cat` model with a Sequelized equivalent.
 
-    * Don't forget to edit the model and initial migration file to make the cat's devoured field carry a default value of false -- otherwise you might encounter bugs.
+    * Don't forget to edit the model and initial migration file to make the cat's adpoted field carry a default value of false -- otherwise you might encounter bugs.
       * There's no option to include that default in the command line, so you'll need to open up your editor to make this change.
     * Don't forget to sync the models!
 
@@ -38,9 +38,7 @@ In this assignment, you're going to Sequelize the `cat` app you made this week. 
 
 * What kind of association you would like to use is up to you. Does a Customer have one cat? Many cats?
 
-* For example, you could make a site that logs the name of which Customer ate which cat, where each Customer only gets one cat. If you can't think of another type of association, try this one!
-
-    ![3-Associated](Images/3-Associated.jpg)
+* For example, you could make a site that logs the name of which Customer adopt which cat, where each Customer only gets one cat. 
 
 * If you do go select this tier, you must edit the handlebars files and CSS stylesheets to implement some sort of additional feature to the site. We don't want you to just connect two models and submit your project. Make your site do something relevant to this association.
 
