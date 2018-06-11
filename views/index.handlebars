@@ -16,9 +16,9 @@
 							
 							<img src="assets/img/meow.png" width =80px alt="catbaby">
 							<form id ="adoptCat"  method="POST">
-							<input type="text" name="ownername" placeholder="Enter your name to adopt">
+							<input type="text"  name="ownername{{id}}" placeholder="Enter your name to adopt">
 
-							<button type="submit" class = "btn btn-primary adpBtn" data-id={{id}}>Adpot Meow</button>
+							<button type="submit" class = "btn btn-primary adpBtn" data-id={{id}}>Adopt Meow</button>
 							</form>
 						</li>
 					</div>
@@ -43,7 +43,7 @@
 					<div class="alert alert-info ">
 						<li>
 							<p> {{id}} : {{cat_name}}</p>
-							<p> Adopted by <span style ="color:rgb(73, 122, 173)">{{Owner.name}}</span> at:<br>{{updatedAt}}</p>
+							<p> Adopted by <span style ="color:rgb(73, 122, 173)"><a href = "/find/{{Owner.name}}">{{Owner.name}}</a></span> at:<br>{{updatedAt}}</p>
 
 							<img src="assets/img/meow2.png" width =80px alt="catbaby">
 							<span>Found a happy home</span>
@@ -82,7 +82,7 @@ $(function() {
 		}
 		console.log(newCatObj);
 		//save owner info before update cat
-		name = $("[name=ownername]").val().trim();
+		name = $("[name=ownername"+catid+"]").val().trim();
 		$.post("/owner", { name: name }).then(function (backdata) {
 			console.log("what iss backdata:  ",backdata);  //backdata is the previous post owner obj, we need the id
 			var newCatObj = {

@@ -19,12 +19,47 @@ router.get("/",function(req,res){
 router.get("/all",function(req,res){
     db.Cat.findAll({        
         include: [db.Owner]
+
     }).then(function(data){
         // console.log(data);
         res.json(data);
         // res.render("../views/index.handlebars",{cats:data})
     });
 })
+
+router.get("/find/:who",function(req,res){
+    var user = req.params.who;
+    db.Owner.findAll({
+        where: {name:user}
+    }).then(function(data1){
+        // console.log(data1);
+        var alldata=[];
+        for(var i = 0 ; i< data1.length; i++){
+            alldata.push(data1[i].id);
+        }
+        console.log(alldata);
+            db.Cat.findAll({    
+                include: [db.Owner],
+                where:{OwnerId : {$or:alldata}}
+            }).then(function(data){
+                // console.log(JSON.stringfy(data));
+                // alldata.push(JSON.parse(data));
+                res.send(data);
+                // res.render("../views/index.handlebars",{cats:data})
+            });
+        
+        
+    })
+    // db.Cat.findAll({    
+    //     include: [db.Owner],
+    //     where:{[db.Owner.name] :'kitty'}
+    // }).then(function(data){
+    //     // console.log(data);
+    //     res.json(data);
+    //     // res.render("../views/index.handlebars",{cats:data})
+    // });
+})
+
 
 router.post("/addcat",function(req,res){
     // console.log(req.body);

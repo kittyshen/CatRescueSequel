@@ -1,6 +1,6 @@
 body{
     background-image: url(../img/catHello.jpg);
-    background-repeat: repeat-y;
+    background-repeat: cover;/*repeat-y;*/
     background-size:100%;
     color: rgb(89, 89, 89);
     padding: 2em;
